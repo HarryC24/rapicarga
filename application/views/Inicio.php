@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!DOCTYPE html>
 <html>
 <head>
-	
+	<?php echo Hola Mundo?>
 	<title>Rapicarga WEB</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
@@ -55,9 +55,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 			<div class='col-md-6 banner_right'>
 	 				<h2>Traspasando fronteras</h2>
 	 				<h2>Servicio Mundial Aduanero</h2>
-<p>empresa reconocida a nivel global, nuestros clientes nos prefieren por la calidad de servicio que ofrecemos.es una empresa especializada en desarrollo de logística, coordinando desde la recolección de su mercancía con el proveedor vía aérea, marítima o terrestre. Despachando, a través de nuestras oficinas aduanales en la República, entregando donde el cliente lo requiere.
+<p>empresa reconocida a nivel global, nuestros clientes nos prefieren por la calidad de servicio que ofrecemos.es una empresa especializada en desarrollo de logÃ­stica, coordinando desde la recolecciÃ³n de su mercancÃ­a con el proveedor vÃ­a aÃ©rea, marÃ­tima o terrestre. Despachando, a travÃ©s de nuestras oficinas aduanales en la RepÃºblica, entregando donde el cliente lo requiere.
 
-Integramos toda la cadena logística con el objetivo de reducirle costos y darle una sola cara para todo el proceso de importaci&oacute;n de su mercancía.</p>
+Integramos toda la cadena logÃ­stica con el objetivo de reducirle costos y darle una sola cara para todo el proceso de importaci&oacute;n de su mercancÃ­a.</p>
 	 				<!-- <a class="banner_btn" href="">Mas Info</a> -->
 	 				
 	 			</div>
@@ -81,7 +81,7 @@ Integramos toda la cadena logística con el objetivo de reducirle costos y darle 
      			<h3 class="m_4">Proveedores</h3>
      			<ul class="list">
      				<li><a href="#"> Terrestres</a></li>
-     				<li><a href="#"> Marítimos</a></li>
+     				<li><a href="#"> MarÃ­timos</a></li>
      				<li><a href="#"> Ferroviarios</a></li>
      		    </ul>
      		</div>
