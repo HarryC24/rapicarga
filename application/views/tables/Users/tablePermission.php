@@ -68,13 +68,14 @@ $id = $iDUSER;
 <button type="button" class="btn btn-primary"  onclick="actualizarPermisos();">Actualizar</button>
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">Cerrar</span></button>
 <script >
+var C, R, U, D, I;
+var nomModulo;
+var idUsuario = <?php echo $id; ?>; // paso de variable de php a js
 
 //esto se ejecuta cuando el documento se carga completamente
 $(document).ready(function() {
 
-	var C, R, U, D, I;
-	var nomModulo;
-	var idUsuario = <?php echo $id; ?>; // paso de variable de php a js
+	
 	
 	// evento click del botón agregar permiso
 	//crea nuevo permiso, lo agrega a la bd y luego la lista
@@ -135,6 +136,12 @@ $(document).ready(function() {
 					//inserccion de fila dinámica
 					var tablaDatos= $("#tablaDatosPermisos");
 					tablaDatos.append("<tr id='"+retorno+"'><td>"+retorno+"</td><td>"+nomModulo+"</td>"+row);
+					// actualiza combobox
+					cargarModulosDisponibles();
+					// deschecka los crudi
+					$('#checkBoxes input:checked').each(function() {
+								$(this).prop( "checked", false );
+							});
 					//escondemos el formulario de nuevo permiso
 					$("#buscar").click();
 				}
@@ -157,29 +164,35 @@ $(document).ready(function() {
 		
 	});
 
+	cargarModulosDisponibles();
 	
-	
-		  try {
-			// esto se ejecuta cuando el documento se carga completamente
-				// mediante json carga los modulos disponibles para agregar permiso, a la lista en el formulario agregar permiso
-				
-					$.getJSON('<?php echo base_url("Usuarios/getModulosDisponibles/"); ?>'+idUsuario,function (datos){
-						if(datos == '') // no tiene modulos disponibles
-						{
-							$("<option value='0'>Ninguno</option>").appendTo("#lstModulos");
-							return;
-						}
-					    $.each(datos, function(i, modulo){
-					    	$("<option value='"+modulo.idmodulos+"'>"+modulo.nombre+"</option>").appendTo("#lstModulos");
-					    });
-					  });
-									
-					  
-		} catch (e) {
-			 alert(e);
-		}
+		  
 
 });//fin document ready
+
+
+function cargarModulosDisponibles()
+{
+	try {
+		
+			// mediante json carga los modulos disponibles para agregar permiso, a la lista en el formulario agregar permiso
+				$("#lstModulos option").remove();
+				$.getJSON('<?php echo base_url("Usuarios/getModulosDisponibles/"); ?>'+idUsuario,function (datos){
+					if(datos == '') // no tiene modulos disponibles
+					{
+						$("<option value='0'>Ninguno</option>").appendTo("#lstModulos");
+						return;
+					}
+				    $.each(datos, function(i, modulo){
+				    	$("<option value='"+modulo.idmodulos+"'>"+modulo.nombre+"</option>").appendTo("#lstModulos");
+				    });
+				  });
+								
+				  
+	} catch (e) {
+		 alert(e);
+	}
+}
 
 var tr_color = 1;
 var exito = 0;

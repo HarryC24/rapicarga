@@ -76,17 +76,20 @@ class Usuarios_Model extends CI_Model
     	try {
     		if($criteria == 1) //cedula,nombre,email
     		{
-    			
+    		
     			$this->db->where('cedula', $q);
+    			$this->db->where('cedula <>','Admin');
     			$this->db->or_where('apellido', $q);
+    			$this->db->where('apellido <>','Admin');
     			$this->db->or_where('email', $q);
+    			$this->db->where('email <>','Admin');
     			if($_SESSION['tipoUser'] == 3000)
     			{
     				$this->db->where('tipoUser','3000');
-    				$this->db->where('tipoUser','2000');
+    				$this->db->or_where('tipoUser','2000');
     			}
     			else
-    				$this->db->where('tipoUser','2000');
+    				$this->db->where('tipoUser <>','3000');
     			$this->db->from('user');
     			$query = $this->db->get();
     			$data = $query->result_array();
