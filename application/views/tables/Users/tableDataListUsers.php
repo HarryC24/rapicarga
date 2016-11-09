@@ -1,5 +1,10 @@
 <?php
-
+	$create = 0;
+	$read = 0;
+	$update = 0;
+	$delete =  0;
+	$print =  0;
+	
 	foreach ($PERMISO as $item)
 	{
 		$create = 	$item['C'];

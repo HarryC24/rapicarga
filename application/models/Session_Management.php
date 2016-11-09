@@ -12,6 +12,11 @@ class Session_Management extends CI_Model
         parent::__construct();       
     }
     
+    /**
+     * Valida los permisos del usuario para el modulo correspondiente
+     * @param unknown $modulo
+     * @return unknown
+     */
 	public function Validar_Permiso($modulo)
 	{
 		//$this->Validar_Sesion();

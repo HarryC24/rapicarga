@@ -34,7 +34,7 @@ class Proveedores_Model extends CI_Model
 	
 		$this->db->select('id');
 		$this->db->select('tipocarga');
-		$this->db->from('tipocarga');
+		$this->db->from('tipocontenedor');
 		$query = $this->db->get();
 		$result = $query->result();
 	
@@ -60,7 +60,7 @@ class Proveedores_Model extends CI_Model
 	{
 		try {
 
-			$this->db->select('*');
+			$this->db->select('proveedores.id,proveedores.proveedor,proveedores.idserxpro,servicios.servicio');
 			$this->db->from('proveedores');
 			$this->db->join('servicios','proveedores.idserxpro = servicios.id');	
 			$query = $this->db->get();
@@ -68,6 +68,44 @@ class Proveedores_Model extends CI_Model
 			return $data;
 		} catch (Exception $e) {
 		}
+	}
+	
+	function getCostos($id)
+	{
+		try {
+	
+			$this->db->select('*');
+			$this->db->from('costoxtipocarga');
+			$this->db->where('idproveedor',$id);
+			$this->db->join('proveedores','proveedores.id = costoxtipocarga.idproveedor');
+			$this->db->join('tipocontenedor','tipocontenedor.id = costoxtipocarga.tipocont');
+			$query = $this->db->get();
+			$data = $query->result_array();
+			return $data;
+		} catch (Exception $e) {
+		}
+	}
+	
+	function createCosto($param,$id) {
+		$this->db->insert('costoxtipocarga', $param);
+		$num_inserts = $this->db->affected_rows();
+		if($num_inserts > 0)
+		{
+			$this->db->select('proveedor');
+			$this->db->from('proveedores');
+			$this->db->where('id',$id);
+			$query = $this->db->get();
+			$data = $query->row();
+			return $data;
+		}
+		else
+		{
+			$data = array(
+					'proveedor' => $num_inserts
+			);
+			return $data;
+		}
+		
 	}
 }
 ?>
