@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo Hola Mundo?>
+	<!--<?php echo Hola Mundo?>-->
 	<title>Rapicarga WEB</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
