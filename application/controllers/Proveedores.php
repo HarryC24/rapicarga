@@ -44,10 +44,16 @@ class Proveedores extends CI_Controller
 			$data['PROVEEDORES'] = $this->PM->getProviders();
 			$this->load->view('tables/Providers/tableDataListProviders',$data);
 		}
-			
+		
 			
 	}
-	
+	public function getProvider($idProv)
+	{
+		$data['PROVEEDOR'] = $this->PM->getProviders($idProv);
+		$data['SERVICIOS'] = $this->PM->getServicios();
+		$this->load->view('forms/Provider/formUpdateProvider',$data);
+
+	}
 	public function createProvider($nombre,$servicio)
 	{
 		$nombre = rawurldecode($nombre);
@@ -67,7 +73,6 @@ class Proveedores extends CI_Controller
 	}
 	
 	function createCosto($idProv,$idTipoCosto,$valor1,$idTipoCont,$valor2,$valor3,$valor4) {
-		
 		$data = array(
 				'idproveedor' => $idProv ,
 				'tipocosto' => $idTipoCosto ,
@@ -80,6 +85,16 @@ class Proveedores extends CI_Controller
 		$retorno = $this->PM->createCosto($data,$idProv);
 		echo $retorno->proveedor;
 		
+	}
+	
+	public function updateProvider($idProv,$nomProv,$idServicio) {
+		$nombre = rawurldecode($nomProv);
+		$data = array(
+				'proveedor' => $nombre ,
+				'idserxpro' => $idServicio 
+		);
+		$retorno = $this->PM->updateProvider($data,$idProv);
+		echo $retorno;
 	}
 	
 }

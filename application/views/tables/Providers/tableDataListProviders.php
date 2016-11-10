@@ -33,13 +33,13 @@ foreach ($PERMISO as $item)
 			echo("<td>$item[servicio]</td>");
 			if($update == 1) //solo si tiene el permiso para modificar se muestran las opciones
 			{
-				echo("<td><button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='top' title='Editar' onclick='editarUsuario($item[id]);'><i class='glyphicon glyphicon-pencil'></i> Modificar </button>");
+				echo("<td><button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='top' title='Editar' onclick='editarProveedor($item[id]);'><i class='glyphicon glyphicon-pencil'></i> Modificar </button>");
 				echo("<button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalCostos' title='Permisos' onclick='costos($item[id]);'><i class='glyphicon glyphicon-lock'></i> Costos por Servicios</button>");
 					
 			}
 			else echo("<td>");
 			if($delete == 1)//solo si tiene el permiso para borrar se muestra la opción
-				echo("<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarUsuario($item[id]);'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>");
+				echo("<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarProv($item[id]);'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>");
 			else echo("</td></tr>");
 		}
 			
@@ -95,9 +95,24 @@ foreach ($PERMISO as $item)
 		     </div><!-- /.modal-body -->  	
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dalog -->
-		</div><!-- /.modal update-->
+		</div><!-- /.modal costos-->
 		
-
+<!--  Modal formulario Update Costos-->  
+		<div class="modal fade bs-example-modal-lg" data-backdrop="static" tabindex="-1" role="dialog" id="modalUpdateCosto" >
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Actualizar Datos del Proveedor</h4>
+		      </div>
+		      <div class="modal-body" id="modalBodyUpdateCosto"></div>
+		     	 <div class="modal-footer">
+		     	 	<button type="button" class="btn btn-warning" id="actualizarProv" >Actualizar</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>	 
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dalog -->
+		</div><!-- /.modal update-->
 
 
 
@@ -155,7 +170,7 @@ foreach ($PERMISO as $item)
 				  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo éxito en la insercción actualiza la tabla permisos dinámicamente
 					{
 						//construimos el string row <tr> para insertarlo a la tabla costos
-						
+						/////////////
 						var row;
 						row += "<tr id='"+m_idProveedor+"'><td>"+m_idProveedor+"</td>";
 						row += "<td>"+$.trim(retorno)+"</td>";
@@ -200,4 +215,70 @@ foreach ($PERMISO as $item)
 		$('#unidad').val('');
 		 $( "#valorVar" ).hide(500);
 	}
+
+	// editar proveedor
+	function editarProveedor(id)
+	{
+		 m_idProveedor=id;
+		 $("#modalBodyUpdateCosto").load("<?php echo base_url('Proveedores/getProvider/'); ?>"+m_idProveedor);
+		
+		 $("#modalUpdateCosto").modal('show');
+		 
+	}
+
+	//guardar editado
+	$('#actualizarProv').on('click', function() {
+		var nomprov = $("#nomprov").val();
+		var servicio = $("#servicio").val();
+		serviciotext = $( "#servicio option:selected" ).text();
+		
+		$.post('<?php echo base_url("Proveedores/updateProvider/"); ?>'+m_idProveedor+'/'+nomprov+'/'+servicio,function () {
+		})
+		  .done(function(retorno) {
+			  // retorna el nombre del proveedor o (0,-1)==error
+			  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo éxito en la insercción actualiza la tabla permisos dinámicamente
+				{
+					//construimos el string row <tr> para insertarlo a la tabla costos
+					
+					///////////////////
+					var row;
+					row = "<tr id='"+m_idProveedor+"'><td>"+m_idProveedor+"</td>";
+					row += "<td>"+nomprov+"</td>";
+					row += "<td>"+serviciotext+"</td>";
+					<?php 
+					if($update == 1) //solo si tiene el permiso para modificar se muestran las opciones
+					{ 
+					?>
+					row += "<td><button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='top' title='Editar' onclick='editarProveedor("+m_idProveedor+");'><i class='glyphicon glyphicon-pencil'></i> Modificar </button>";
+					row += "<button type='button' class='btn btn-link' data-toggle='modal' data-target='#modalCostos' title='Permisos' onclick='costos("+m_idProveedor+");'><i class='glyphicon glyphicon-lock'></i> Costos por Servicios</button>";
+					
+					<?php		
+					}
+					else ?>
+					row += "<td>";
+					<?php 
+					if($delete == 1)//solo si tiene el permiso para borrar se muestra la opción
+					{
+					?>
+					row += "<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarUsuario("+m_idProveedor+");'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>";
+					<?php 
+					}
+					else 
+					{
+						?>
+					row += "</td></tr>";
+					<?php }?>
+					// se actualiza tabla de usuarios
+					
+					 $('td#'+m_idProveedor).parent().replaceWith(row);
+					 $("#modalUpdateCosto").modal('hide');
+					
+				}
+			  else
+			  {
+				  // TODO: Avisar al Usuario
+				  alert("Error..");
+			  }
+		  });
+	});
 </script>				  

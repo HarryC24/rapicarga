@@ -56,16 +56,29 @@ class Proveedores_Model extends CI_Model
 		return $num_inserts;
 	}
 	
-	function getProviders()
+	function getProviders($idProv = 0)
 	{
 		try {
 
-			$this->db->select('proveedores.id,proveedores.proveedor,proveedores.idserxpro,servicios.servicio');
-			$this->db->from('proveedores');
-			$this->db->join('servicios','proveedores.idserxpro = servicios.id');	
-			$query = $this->db->get();
-			$data = $query->result_array();
-			return $data;
+			if($idProv <> 0)
+			{
+				$this->db->select('*');
+				$this->db->from('proveedores');
+				$this->db->where('id',$idProv);
+				$query = $this->db->get();
+				$data = $query->row();
+				return $data;
+			}
+			else
+			{
+				$this->db->select('proveedores.id,proveedores.proveedor,proveedores.idserxpro,servicios.servicio');
+				$this->db->from('proveedores');
+				$this->db->join('servicios','proveedores.idserxpro = servicios.id');
+				$query = $this->db->get();
+				$data = $query->result_array();
+				return $data;
+			}
+			
 		} catch (Exception $e) {
 		}
 	}
@@ -106,6 +119,13 @@ class Proveedores_Model extends CI_Model
 			return $data;
 		}
 		
+	}
+	
+	function updateProvider($data,$idProv) {
+		$this->db->where('id', $idProv);
+    	$this->db->update('proveedores', $data);
+    	$num_inserts = $this->db->affected_rows();
+    	return $num_inserts;
 	}
 }
 ?>

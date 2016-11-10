@@ -144,7 +144,6 @@ function crearProveedor(){
 	$("#formulario").load("<?php echo base_url('Proveedores/loadView/newProvider'); ?>", function() {
 	    $(this).show(700);
 	});
-
 }
 
 
