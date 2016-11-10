@@ -1,5 +1,4 @@
 <?php
-
 $create = 0;
 $read = 0;
 $update = 0;
@@ -13,7 +12,6 @@ foreach ($PERMISO as $item)
 	$delete = 	$item['D'];
 	$print = 	$item['I'];
 }
-
 ?>
 <table class="table table-hover" id="tablaDatos">
 <thead>
@@ -23,11 +21,9 @@ foreach ($PERMISO as $item)
 </thead>
 <tbody>
 <?php
-
 		foreach ($PROVEEDORES as $item)
 		{
 			
-
 			echo("<tr id='$item[id]'><td>$item[id]</td>"); //id en el <tr> para poder eliminarlo mediante ajax
 			echo("<td id='$item[id]'>$item[proveedor]</td>"); //id en el <td> para poder modificarlo mediante ajax
 			echo("<td>$item[servicio]</td>");
@@ -38,7 +34,7 @@ foreach ($PERMISO as $item)
 					
 			}
 			else echo("<td>");
-			if($delete == 1)//solo si tiene el permiso para borrar se muestra la opción
+			if($delete == 1)//solo si tiene el permiso para borrar se muestra la opciï¿½n
 				echo("<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarProv($item[id]);'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>");
 			else echo("</td></tr>");
 		}
@@ -113,19 +109,39 @@ foreach ($PERMISO as $item)
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dalog -->
 		</div><!-- /.modal update-->
-
+                
+                <div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalPreguntarEliminarProveedor">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Eliminaci&oacute;n de Proveedor</h4>
+		      </div>
+		      <div class="modal-body">
+		     		        
+			        <form role="form">
+			        	  <div id='mensaje3'></div>
+			        	  
+						  <div><h3>Confirme por favor.<small><br> Qu&eacute; desea hacer ?</small></h3></div>
+						  <button type="button" class="btn btn-warning" onclick="eliminar();" data-toggle='tooltip' >Eliminar</button>
+						  <button type="button" class="btn btn-info"  data-dismiss="modal" aria-hidden="true">Cancelar</button>
+					</form>
+		               
+		    </div>
+		      
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dalog -->
+		</div><!-- /.modal preguntar-->
 
 
  <script type="text/javascript">
  var m_idProveedor=0;
  
  $('#tipoCosto').on('change', function() {
-
 	  $( "#valorFijo" ).toggle();
 	  $( "#valorVar" ).toggle();
 	 
 	});
-
  function costos(id)
  {
 	 m_idProveedor=id;
@@ -137,9 +153,7 @@ foreach ($PERMISO as $item)
  
 	
  $( document ).ready(function() {
-
 	 $('#guardarCosto').on('click', function() {
-
 			var tipocosto = 0;
 			var valor1 = 0;
 			var tipocont = 0;
@@ -147,7 +161,6 @@ foreach ($PERMISO as $item)
 			var valor2 = 0;
 			var valor3 = 0;
 			var valor4 = 0;
-
 			tipocosto = $('#tipoCosto').val();
 			valor1 = $('#tipoValor').val();
 			tipocont = $('#tipoCont').val();
@@ -167,7 +180,7 @@ foreach ($PERMISO as $item)
 			})
 			  .done(function(retorno) {
 				  // retorna el nombre del proveedor o (0,-1)==error
-				  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo éxito en la insercción actualiza la tabla permisos dinámicamente
+				  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo ï¿½xito en la insercciï¿½n actualiza la tabla permisos dinï¿½micamente
 					{
 						//construimos el string row <tr> para insertarlo a la tabla costos
 						/////////////
@@ -184,7 +197,7 @@ foreach ($PERMISO as $item)
 						row += "<td>$"+valor3+"</td>";
 						row += "<td>$"+valor4+"</td></tr>";
 						
-						//inserccion de fila dinámica
+						//inserccion de fila dinï¿½mica
 						var tablaDatos= $("#tablaDatosCostos");
 						tablaDatos.append(row);
 						limpiaModal();
@@ -196,15 +209,11 @@ foreach ($PERMISO as $item)
 					  alert("Error..");
 				  }
 			  });
-
-
-
 			
 		
 		}); // fin guardar costo
 		
 	}); // fin document ready
-
 	function limpiaModal()
 	{
 		$('#tipoCosto option:first').prop('selected', 'selected');
@@ -215,7 +224,6 @@ foreach ($PERMISO as $item)
 		$('#unidad').val('');
 		 $( "#valorVar" ).hide(500);
 	}
-
 	// editar proveedor
 	function editarProveedor(id)
 	{
@@ -225,7 +233,6 @@ foreach ($PERMISO as $item)
 		 $("#modalUpdateCosto").modal('show');
 		 
 	}
-
 	//guardar editado
 	$('#actualizarProv').on('click', function() {
 		var nomprov = $("#nomprov").val();
@@ -236,7 +243,7 @@ foreach ($PERMISO as $item)
 		})
 		  .done(function(retorno) {
 			  // retorna el nombre del proveedor o (0,-1)==error
-			  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo éxito en la insercción actualiza la tabla permisos dinámicamente
+			  if($.trim(retorno) != '0' || $.trim(retorno) != '-1') //si hubo ï¿½xito en la insercciï¿½n actualiza la tabla permisos dinï¿½micamente
 				{
 					//construimos el string row <tr> para insertarlo a la tabla costos
 					
@@ -257,10 +264,10 @@ foreach ($PERMISO as $item)
 					else ?>
 					row += "<td>";
 					<?php 
-					if($delete == 1)//solo si tiene el permiso para borrar se muestra la opción
+					if($delete == 1)//solo si tiene el permiso para borrar se muestra la opciï¿½n
 					{
 					?>
-					row += "<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarUsuario("+m_idProveedor+");'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>";
+					row += "<button type='button' class='btn btn-link' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarProv("+m_idProveedor+");'><i class='glyphicon glyphicon-remove-circle'></i> Eliminar</button></td></tr>";
 					<?php 
 					}
 					else 
@@ -268,9 +275,9 @@ foreach ($PERMISO as $item)
 						?>
 					row += "</td></tr>";
 					<?php }?>
-					// se actualiza tabla de usuarios
-					
-					 $('td#'+m_idProveedor).parent().replaceWith(row);
+					// se actualiza tabla de proveedores
+				
+					 $('table#tablaDatos tr#'+m_idProveedor).replaceWith(row);
 					 $("#modalUpdateCosto").modal('hide');
 					
 				}
@@ -281,4 +288,35 @@ foreach ($PERMISO as $item)
 			  }
 		  });
 	});
-</script>				  
+        function eliminarProv(idProv) 
+        {
+            m_idProveedor = idProv;
+            $('#modalPreguntarEliminarProveedor').modal({
+		keyboard : false
+	});
+            $("#modalPreguntarEliminarProveedor").modal("show");
+        }
+        
+        function eliminar()
+        {
+            $.ajaxSetup({async: false});
+            $.post('<?php echo base_url("Proveedores/deleteProvider/"); ?>'+m_idProveedor,function () {
+		})
+		  .done(function(retorno) {
+			  if($.trim(retorno) !== '0' || $.trim(retorno) !== '-1')
+                            {
+                                  $('table#tablaDatos tr#'+m_idProveedor).remove(); //quitamos de la tabla de usuarios
+				  $('#mensaje3').html("<h2>Dato eliminado correctamente!</h2>")
+			        .hide()
+			        .fadeIn(1000, function() {
+			        	$('#modalPreguntarEliminarProveedor').modal('hide'); 					
+			        }); 
+                            }
+			  else
+			  {
+				  // TODO: Avisar al Usuario
+				  alert("Error..");
+			  }
+		  });
+        }
+</script>	

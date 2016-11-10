@@ -96,5 +96,18 @@ class Proveedores extends CI_Controller
 		$retorno = $this->PM->updateProvider($data,$idProv);
 		echo $retorno;
 	}
-	
+	public function deleteProvider($idProv) {
+		
+				// TODO: eliminar costos asociados a este id de proveedor
+				try {
+						$data = array(
+										'id' => $idProv
+								);
+						$retorno = $this->PM->deleteProvider($data);
+						echo $retorno;
+			
+					} catch (Exception $e) {
+							echo 0;
+						}
+	}
 }

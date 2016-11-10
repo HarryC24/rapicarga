@@ -127,5 +127,11 @@ class Proveedores_Model extends CI_Model
     	$num_inserts = $this->db->affected_rows();
     	return $num_inserts;
 	}
+	function deleteProvider($data)
+	        {
+		            $this->db->delete('proveedores',$data);
+		            $num_inserts = $this->db->affected_rows();
+		            return $num_inserts;
+		        }
 }
 ?>
