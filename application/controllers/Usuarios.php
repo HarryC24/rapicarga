@@ -107,7 +107,7 @@ class Usuarios extends CI_Controller
 	}
 	
 	/*
-	 * Busca los usuarios según criterio (id,cedula,nombre,email)
+	 * Busca los usuarios segï¿½n criterio (id,cedula,nombre,email)
 	 *  q = texto de busqueda o id
 	 */
 	public function findUser($criteria,$q)
@@ -126,6 +126,24 @@ class Usuarios extends CI_Controller
 			$this->loadView('tableUser',$data);
 		}
 			
+	}
+        public function findCed($cedula)
+	{
+                echo $cedula;
+		$data['USER']=$this->UM->findCed("id",$cedula);
+		$data['PERMISO']=$this->SM->Validar_Permiso('USUARIOS');
+		$this->loadView('editUser',$data);
+              
+	}
+        
+        // con la Cedula que se inserta en la cotizaciÃ³n se realiza un join entre la tabla
+        //user y userempresa y con los datos de user empresa se crea un join entre userempresa y empresa
+         public function findEmpresa($cedula)
+	{
+                echo $cedula;
+		$data['USER']=$this->UM->findEmpresa("id",$cedula);
+		$data['PERMISO']=$this->SM->Validar_Permiso('USUARIOS');
+		$this->loadView('editUser',$data);     
 	}
 	
 	/*
@@ -171,7 +189,7 @@ class Usuarios extends CI_Controller
 	}
 	
 	/*
-     * devuelve los módulos que no han sido asigados al usuario
+     * devuelve los mï¿½dulos que no han sido asigados al usuario
      * para crear un listbox
      * @return JSON
      */
