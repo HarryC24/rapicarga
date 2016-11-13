@@ -1,6 +1,6 @@
 <?php
 /* 
- * File Name: Proveedores.php
+ * File Name: Cotizaciones.php
  */
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
@@ -14,11 +14,19 @@ class Cotizaciones extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->database();
-		$this->load->model('Proveedores_Model','PM',true);
+		$this->load->model('Cotizaciones_Model','CM',true);
 		$this->load->model('Session_Management','SM',true);
 		
 	}
 	
+	public function index()
+	{
+		$this->SM->Validar_Sesion();
+		$permisos['COTIZACIONES']=$this->SM->Validar_Permiso('COTIZACIONES');
+		$this->load->view('Cotizaciones_view',$permisos);
+	}
+
+
 	public function lista_cotizacion()
      {
           //load the department_model
@@ -31,7 +39,15 @@ class Cotizaciones extends CI_Controller
           //http://localhost/rapicarga/index.php/Cotizaciones/lista_cotizacion
      }
 	
+	public function loadView($view)
+	{
+		
+		
+		if($view == 'NewCotiza')
+			$this->load->view('forms/Cotizaciones/formNewCotizaciones');
 	
+	}
 	
+        
 	
 }
