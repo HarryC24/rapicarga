@@ -34,6 +34,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/*
 							 * Menú dinámico según los permisos de usuario
 							 */
+					$create = 0;
+					$read = 0;
+					$update = 0;
+					$delete =  0;
+					$print =  0;
 							foreach ($PROVEEDORES as $item)
 							{
 								$create = $item['C'];

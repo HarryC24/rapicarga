@@ -1,5 +1,4 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
@@ -9,7 +8,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	
 	<title>Rapicarga WEB</title>
-	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
     <link href="<?php echo base_url("css/bootstrap.css"); ?>" rel="stylesheet" type="text/css" />
@@ -20,7 +18,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	<script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/jquery-ui.js'); ?>"></script>
     <script src="<?php echo base_url('js/crypto/sha1.js'); ?>"></script>
-    
 </head>
 <body>
  
@@ -36,14 +33,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<ul class="nav" id="nav">
 					<?php
 							/*
-							 * Menú dinámico según los permisos de usuario
+							 * MenÃº dinÃ¡mico segÃºn los permisos de usuario
 							 */
-					$create = 0;
-					$read = 0;
-					$update = 0;
-					$delete =  0;
-					$print =  0;
-							foreach ($CLIENTES as $item)
+							foreach ($Puertos as $item)
 							{
 								$create = $item['C'];
 								$read = $item['R'];
@@ -53,11 +45,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 								if($create == 1) //si tiene  permiso para crear se muestra el acceso
 								{
-									echo("<li  onclick='crearCliente();'><a href='#'>Crear Cliente</a></li>");
+									echo("<li  onclick='crearPuerto();'><a href='#'>Crear Puerto</a></li>");
 								}
 								if($read  == 1) //si tiene  permiso para buscar se muestra el acceso
 								{
-									echo("<li  onclick='buscarCliente();'><a href='#'>Buscar Cliente</a></li>");
+									echo("<li  onclick='buscarPuerto();'><a href='#'>Buscar Puerto</a></li>");
 								}
 							
 					?>
@@ -72,9 +64,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
      <div class="container banner">
 	 	<div class="row">
-	 	<h3><span class="label label-info">M&oacute;dulo Cliente</span></h3>
-	 	<h3><span style="color: red;" id="info"></span></h3>	
-	 		<div id="formularioCostumer" style="display: none;"></div>
+	 	<h3><span class="label label-info">M&oacute;dulo Puertos</span></h3>
+	 	<h3><span style="color: red;" id="info"></span></h3>
+	 		<div id="formulario" style="display: none;"></div>
 	 	 </div>
 	 	 
 	 </div>
@@ -96,17 +88,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
  <!-- Elementos Modales -->
  
- 
-		
-<!--  Modal formulario Update Usuarios-->  
-		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalUpdateUsuario" >
+ <!--  Modal formulario Permisos-->  
+		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalPermisos">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Actualizar Informaci&oacute;n del usuario</h4>
+		        <h4 class="modal-title">Permisos de  Puerto</h4>
 		      </div>
-		      <div class="modal-body" id="modalBodyUpdateUsuario">
+		      <div class="modal-body" id="modalBodyPermiso">
+		     		
+		    </div>
+		      
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dalog -->
+		</div><!-- /.modal permisisos-->
+		
+<!--  Modal formulario Update Usuarios-->  
+		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalUpdatePuerto" >
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Actualizar Informaci&oacute;n del Puerto</h4>
+		      </div>
+		      <div class="modal-body" id="modalBodyUpdatePuerto">
 		     		
 		    </div>
 		      
@@ -124,14 +130,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Registro de Cliente</h4>
+		        <h4 class="modal-title">Registro de Usuario</h4>
 		      </div>
 		      <div class="modal-body">
 		     		        
 			        <form role="form" id = "form_preguntarf">
 			        	  	        	  
 						  <div><h3>Datos listos para guardar.<small><br> Qu&eacute; desea hacer ?</small></h3></div>
-						  <button type="button" class="btn btn-info" onclick="guardarCliente();" data-toggle='tooltip' >Guardar datos</button>
+						  <button type="button" class="btn btn-info" onclick="guardarPuerto();" data-toggle='tooltip' >Guardar datos</button>
 						  <button type="button" class="btn btn-warning"  data-dismiss="modal" aria-hidden="true">Cancelar</button>
 					</form>
 		               
@@ -159,15 +165,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  </div><!-- /.modal-dalog -->
 		</div><!-- /.modal preguntar-->
 	
-	
-<!--  Modal Prguntar eliminar-->
+	<!--  Modal Preguntar seguir-->
         
-		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalPreguntarEliminarUsuario">
+		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalPreguntarSeguir">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Eliminaci&oacute;n de Usuario</h4>
+		        <h4 class="modal-title">Registro de Puerto</h4>
+		      </div>
+		      <div class="modal-body">
+		     		        
+			        <form role="form" id = "form_preguntarf2">
+			        	  			        	  
+						  <div><h3>Datos Guardados Satisfactoriamente.</h3></div>
+						  <button type="button" class="btn btn-info" onclick="salir();" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+						  </form>
+		               
+		    </div>
+		      
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dalog -->
+		</div><!-- /.modal preguntar-->
+<!--  Modal Prguntar eliminar-->
+        
+		<div class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" id="modalPreguntarEliminarPuerto">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Eliminaci&oacute;n de Puerto</h4>
 		      </div>
 		      <div class="modal-body">
 		     		        
@@ -187,108 +214,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  <!--  Modal Prguntar guardar-->
 </body>
 
-<script type="text/javascript">
+<script>
 
-var cedula;
-var email;
-var nombres;
-var apellidos;
-var pass;
-var passConfirm;
-var tr_color = 1;
-var id_aEliminar;
-var nomEmpresa;
-var idEmpresa = 0;
-var fecha ;
-var tel ;
-var cel;
-var appostal;
-var pais ;
-
+var nombre;
+var codpuerto;
+var codpais;
 
 //Despliega el formulario para crear usuario
-function crearCliente(){
-	$("#formularioCostumer").load("<?php echo base_url('Costumers/loadView/newCostumer'); ?>", function() {
+function crearPuerto(){
+	$("#formulario").load("<?php echo base_url('Puertos/loadView/NewPuerto'); ?>", function() {
 	    $(this).show(700);
 	});
 
 }
 
-//validación de los datos del usuario antes de guardarlos
-$("#formularioCostumer").submit(function(event) {
-		
+//validaciÃ³n de los datos del usuario antes de guardarlos
+$("#formulario").submit(function(event) {
+	
 	event.preventDefault();
 	
+	nombre = $('#nombre').val();
+	codpais = $('#idpais').val();
 	
-	cedula = $('#cedula').val();
-	email = $('#inputEmail').val();
-	nombres = $('#name').val();
-	apellidos = $('#lastname').val();
-	pass = $('#inputPassword').val();
-	passConfirm = $('#inputPasswordConfirm').val();
-	fecha = $('#datepicker').val();
-	tel = $('#telefono').val();
-	cel = $('#celular').val();
-	appostal = $('#appostal').val();
-	pais = $('#pais').val();
-	var captcha = $('#captcha').val();
-
-	if(idEmpresa == 0)
-	{
-		alert('Falta seleccionar empresa');
-		return;
-	}
-	if(cedula === '') {
-		alert('Falta Cedula del cliente');
-		return;
-	}
-	if(email === '') {
-		alert('Falta email de Cliente');
-		return;
-	}
-	if(nombres === '') {
-		alert('Falta nombre de Cliente');
-		return;
-	}
-	if(apellidos === '') {
-		alert('Falta apellido de Cliente');
-		return;
-	}
-	if(appostal === '') {
-		appostal = "null";
-	}
-	if(cel === '') {
-		cel = "null";
-	}
-	if(tel === '') {
-		tel = "null";
-	}
-	if(fecha === '') {
-		fecha = "null";
-	}
-
-
 	
-	if(pass.length < 6 )
-	{
-		$( "span" ).text("Contrase\u00f1a muy corta, Intente otra vez!" ).show().fadeOut( 3000 );
-		return;
-	}
-	// valida captcha
-	var captchaValid = 0;
-	$.ajaxSetup({async: false});
-	$.post('<?php echo base_url("Usuarios/validarCaptcha/"); ?>'+captcha,function () {
-		})
-		.done(function(exito) {
-			captchaValid = $.trim(exito);
-		  });
-	
-	if(captchaValid != '1') // captcha no válido
-	  {
-		  $('#errorCaptcha_').html("<h3>Error de Captcha!!</h3>" ).show().fadeOut( 5000 );
-		  return;
-	  }	
-  if ( pass == passConfirm ) {
+  if ( nombre !== '' ) {
 	   
 	    $('#modalPreguntar').modal({
 			keyboard : false
@@ -297,16 +246,15 @@ $("#formularioCostumer").submit(function(event) {
 		return;
 	  }
   else
-			$( "span" ).text("Contrase\u00f1as no coinciden, Intente otra vez!" ).show().fadeOut( 3000 );
+			$( "span" ).text(" el campo nombre del puerto esta vacio, Intente otra vez!" ).show().fadeOut( 3000 );
 	 
 	});
 
-//guarda los datos del nuevo cliente
-function guardarCliente() {
-	var pass_crypt = Sha1.hash(pass);
+//guarda los datos del nuevo puerto
+function guardarPuerto() {
 	var success = 0;
 	$.ajaxSetup({async: false});
-	$.post('<?php echo base_url("Costumers/createCostumer/"); ?>'+cedula+'/'+pass_crypt+'/'+email+'/'+nombres+'/'+apellidos+'/'+fecha+'/'+tel+'/'+cel+'/'+pais+'/'+appostal+'/'+idEmpresa,function () {
+	$.post('<?php echo base_url("Puertos/createPuertos/"); ?>'+nombre+'/'+codpais,function () {
 		})
 		  .done(function(retorno) {
 			  success = retorno;	 
@@ -316,73 +264,70 @@ function guardarCliente() {
     
 		if(success == 1) // exito al insertar
 		{
-			salir();
+			location.reload();
 		}
-		if(success == 0) //falló al intentar guardar
+		if(success == 0) //fallÃ³ al intentar guardar
 		{
-			$( "span" ).html("<h3>No se pudo guardar, revise los datos!,<br> Posible llave duplicada.</h3>" ).show().fadeOut( 10000 );
+			$( "span" ).text("No se pudo guardar, revise los datos!" ).show().fadeOut( 5000 );
 		}
 	
 }
 
-//despúes de crear al usuario sale del formulario
+
+
+
+
+
+//despÃºes de crear al puerto sale del formulario
 function salir()
 {
 	location.reload();
 }
 
-
-
-
-
-//Despliega el formulario para buscar usuario
-function buscarCliente(){
-	$("#formularioCostumer").load("<?php echo base_url('Costumers/loadView/findCostumer'); ?>", function() {
+//Despliega el formulario para buscar puerto
+function buscarPuerto(){
+	$("#formulario").load("<?php echo base_url('Puertos/loadView/findPuertos'); ?>", function() {
 	    $(this).show(700);
 	});
 }
 
-
-
-
-//búsqueda del usuario según el criterio
-//carga una tabla dinámica con los datos encontrados
-function buscarClienteCriterio(criterio)
+//bÃºsqueda del usuario segÃºn el criterio
+//carga una tabla dinÃ¡mica con los datos encontrados
+function buscarPuertoCriterio(criterio)
 {
-	if(criterio == 1) //según el texto de búsqueda (cedula,nombre o apellido)
+	if(criterio == 1) //segÃºn el texto de bÃºsqueda nombre de puerto
 	{
-		var data = $("#busqueda").val(); //texto de búsqueda
+		var data = $("#busqueda").val(); //texto de bÃºsqueda
 		if(data===''){
 			$('#info').html("<h2>Texto de b&uacute;squeda vac&iacute;o.</h2>" ).show().fadeOut( 3000 ); 
 			return;}
-		$("#tablaResultadosCostumer").load("<?php echo base_url('Costumers/findCostumer/1/'); ?>"+data, function() {
+		$("#tablaResultados").load("<?php echo base_url('Puertos/findPuertos/1/'); ?>"+data, function() {
 		    $(this).show(700);
 		});
 	}
-	if(criterio == 2) // los últimos 10 registrados
+	if(criterio == 2) // los Ãºltimos 10 registrados
 	{
-		$("#tablaResultadosCostumer").load("<?php echo base_url('Costumers/findCostumer/2/0'); ?>", function() {
+		$("#tablaResultados").load("<?php echo base_url('Puertos/findPuertos/2/0'); ?>", function() {
 		    $(this).show(700);
 		});
 	}
 }
 
-
 //Despliega el formulario modal  'update' de usuario
-function editarUsuario(idUsuario)
+function editarPuerto(idpuertos)
 {
-	$('#modalUpdateUsuario').modal({
+	$('#modalUpdatePuerto').modal({
 		keyboard : false
 	});
-	$('#modalUpdateUsuario').modal('show');
-	$("#modalBodyUpdateUsuario").load("<?php echo base_url('Costumers/findCostumer/id/'); ?>"+idUsuario, function() {
+	$('#modalUpdatePuerto').modal('show');
+	$("#modalBodyUpdatePuertos").load("<?php echo base_url('Puertos/findpuerto/id/'); ?>"+idpuertos, function() {
 	    $(this).show(700);
 	});
 }
 
 
 
-// Despliega ventana de confirmación para eliminar usuario
+// Despliega ventana de confirmaciÃ³n para eliminar usuario
 function eliminarUsuario(idUsuario)
 {
 	id_aEliminar = idUsuario;
@@ -410,7 +355,7 @@ function eliminar()
 			        }); 
 					
 				}
-			  if($.trim(retorno) == '0') //falló al intentar eliminar
+			  if($.trim(retorno) == '0') //fallÃ³ al intentar eliminar
 				{
 				// aviso al usuario
 				 	$('#aviso').html("<h2>No hubo Cambios.</h2>" ).show().fadeOut( 5000 );
@@ -425,7 +370,19 @@ function aceptarAviso()
 	$('#modalAviso').modal('hide');
 }
 
-
+// despliega ventana modal para modificar permisos de usuarios
+function permisosUsuarios(idUsuario)
+{
+	$('#modalPermisos').modal({
+		keyboard : false
+	});
+	$('#modalPermisos').modal('show');
+	
+	$("#modalBodyPermiso").load("<?php echo base_url('Usuarios/getPermission/'); ?>"+idUsuario, function() {
+	    $(this).show(700);
+	});
+	
+}
 
 </script>
 </html>		

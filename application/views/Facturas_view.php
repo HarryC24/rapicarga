@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	<script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/jquery-ui.js'); ?>"></script>
     <script src="<?php echo base_url('js/crypto/sha1.js'); ?>"></script>
-    
+   
 </head>
 <body>
  
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$update = 0;
 					$delete =  0;
 					$print =  0;
-							foreach ($COTIZACIONES as $item)
+							foreach ($FACTURAS as $item)
 							{
 								$create = $item['C'];
 								$read = $item['R'];
@@ -51,11 +51,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 								if($create == 1) //si tiene  permiso para crear se muestra el acceso
 								{
-									echo("<li  onclick='crearCotiza();'><a href='#'>Crear Cotizacion</a></li>");
+									echo("<li  onclick='alert('No Disponible');'><a href='#'>Crear Factura</a></li>");
 								}
 								if($read  == 1) //si tiene  permiso para buscar se muestra el acceso
 								{
-									echo("<li  onclick='buscarCotiza();'><a href='#'>Buscar Cotizacion</a></li>");
+									echo("<li  onclick='buscarFacturas();'><a href='#'>Buscar Facturas</a></li>");
 								}
 							
 					?>
@@ -213,78 +213,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div><!-- /.modal-dalog -->
 </div><!-- /.modal update-->
 </body>
+<script type="text/javascript">
 
-<script>
+$( document ).ready(function() {
+	<?php 
+		if (isset($idCot))
+		{
+			?> 
+			 var idCot = <?php echo $idCot; ?>;
+			 crearFactura(idCot);
+			<?php 
+		}
+	?>
+   
+});
 
-var cedula;
-var email;
-var nombres;
-var apellidos;
-var pass;
-var passConfirm;
-var tr_color = 1;
-var id_aEliminar;
-
-//Despliega el formulario para crear cotizacion
-function crearCotiza(){
-	
-	 $('#buscaCed').modal('show');
-
-}
-
-function CedSeek()
+function crearFactura(idCot)
 {
-    var cedula = $("#idced").val();
 
-    if (!cedula) 
-    {
-            $('#infoced').html("<h2>Escriba una c\u00E9dula.</h2>").show().fadeOut(3000);
-            return;
-    }
-    else
-    {
-
-        //buscar la info  del cliente(nombre y datos de la empresa que represnta)
-    	$("#formulario").load("<?php echo base_url('Cotizaciones/crearCotizacion/'); ?>"+cedula, function() {
-    	    $(this).show(700);
-    	    $('#buscaCed').modal('hide');
-    	});
-    }
-
-
-}
-
-//validación de los datos del usuario antes de guardarlos
-$("#formulario").submit(function(event) {
-	
-	event.preventDefault();
-		 
-	});
-
-
-
-//despúes de crear Cotizacion sale del formulario
-function salir()
-{
-	location.reload();
-}
-
-
-function buscarCotiza()
-{
-	
-	$("#formulario").load("<?php echo base_url('Cotizaciones/mostrarLista/'); ?>", function() {
+    
+	$("#formulario").load("<?php echo base_url('Facturas/traerCotizacion/'); ?>"+idCot, function() {
 	    $(this).show(700);
 	});
 }
 
-function facturar(idCot)
+function buscarFacturas()
 {
-	window.location.replace("<?php echo base_url('Facturas/mostrarCotizacion/'); ?>"+idCot);
-	//alert(idCot);
+	$("#formulario").load("<?php echo base_url('Facturas/traerFacturas'); ?>", function() {
+	    $(this).show(700);
+	});
 }
 
-
+function track(idFactura)
+{
+	$("#formulario").load("<?php echo base_url('Facturas/map/'); ?>"+idFactura, function() {
+	    $(this).show(700);
+	});
+}
 
 </script>
+
 </html>		

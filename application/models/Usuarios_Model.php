@@ -65,36 +65,46 @@ class Usuarios_Model extends CI_Model {
         return $num_inserts;
     }
 
-    function findCed($cedula) {
-        $query = $this->db->where('user', array('cedula' => $cedula));
-        $data = $query->row();
-        echo $data;
-        return $data;
+    function findDatosCliente($cedula) {
+    	
+    	   	
+    	// obtener id del ciente
+    	$this->db->where('cedula', $cedula);
+    	$this->db->from('user');
+    	$query = $this->db->get();//query tiene los datos del cliente
+    	
+    	$idCliente = 0;
+    	foreach ($query->result() as $row)
+    	{
+    		$idCliente = $row->id;
+    	}
+   
+    	
+    	
+    	
+    	//obtener id de la empresa
+    	$this->db->select("idempresa");
+    	$this->db->where('iduser', $idCliente);
+    	$this->db->from('userempresa');
+    	$query2 = $this->db->get();
+    	$idEmpresa = 0;
+    	foreach ($query2->result() as $row)
+    	{
+    		$idEmpresa = $row->idempresa;
+    	}
+    	
+    	
+    	//obtener info de la empresa
+        $this->db->where('id',$idEmpresa);
+        $this->db->from('empresas');
+        $query3 = $this->db->get();
+        
+        //combinamos ambos arrays
+        $retorno = array_merge($query->result_array(),$query3->result_array());
+        return $retorno;
     }
     
-    function findEmpresa($cedula) {
-        //extrae de la tabla user los datos del cliente
-        $query = $this->db->where('user', array('cedula' => $cedula));
-        $data = $query->row();
-        
-         //realiza un join entre la tabla user y userempresa con id del cliente para obtener
-        // el idempresa  
-        $this->db->where('id', $data);
-        $this->db->from('user');
-        $this->db->join('userempresa', 'userempresa.iduser = user.id');
-        $query = $this->db->get();
-        $userempresa = $query->result_array();
-        
-        //realiza un join entre la tabla user y empresa con el iduser  para obtener
-        // los datos de la empresa : nombre legal y comercial de la empresa
-        $this->db->where('id', $userempresa);
-        $this->db->from('userempresa');
-        $this->db->join('empresa', 'empresa.id = userempresa.id');
-        $query = $this->db->get();
-        $userempresa = $query->result_array();
-        return $data;
-    }
-
+    
     /*
      * Busca los usuarios seg�n criterio (id,cedula,nombre,email)
      *  q = texto de busqueda o id

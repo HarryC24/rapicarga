@@ -56,6 +56,20 @@ class Proveedores_Model extends CI_Model
 		return $num_inserts;
 	}
 	
+	function getProvs($servicios,$tipoCont)
+	{
+
+		$this->db->select('p.id,p.proveedor, s.id as idSer, ct.valor1,	ct.valor2,	ct.valor3,	ct.valor4');
+		$this->db->from('proveedores p');
+		$this->db->where('p.idserxpro IN ('.$servicios.')');
+		$this->db->join('servicios s','s.id = p.idserxpro');
+		$this->db->join('costoxtipocarga ct','ct.idproveedor = p.id');
+		$this->db->where('ct.tipocont = '.$tipoCont);
+		$query = $this->db->get();
+		$data = $query->result();
+		return $data;
+	}
+	
 	function getProviders($idProv = 0)
 	{
 		try {

@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 							if($create + $read + $update + $delete + $print >= 1) //si tiene al menos un permiso se muestra el acceso al módulo
 							{
-								echo("<li><a href=".base_url('Quotes/').">Cotizaciones</a></li>");
+								echo("<li><a href=".base_url('Cotizaciones/').">Cotizaciones</a></li>");
 							}
 							$create=0;
 							$read=0;
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 							if($create + $read + $update + $delete + $print >= 1) //si tiene al menos un permiso se muestra el acceso al módulo
 							{
-								echo("<li><a href=".base_url('Rutas/').">Rutas</a></li>");
+								echo("<li><a href=".base_url('Rutasmaestras/').">Rutas</a></li>");
 							}
 							$create=0;
 							$read=0;
